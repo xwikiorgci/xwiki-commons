@@ -23,7 +23,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 
-@Component(roles = TestStandaloneComponent.class, staticRegistration = false)
+@Component(roles = TestStandaloneComponent.class)
 @Singleton
 public class TestStandaloneComponent
 {
