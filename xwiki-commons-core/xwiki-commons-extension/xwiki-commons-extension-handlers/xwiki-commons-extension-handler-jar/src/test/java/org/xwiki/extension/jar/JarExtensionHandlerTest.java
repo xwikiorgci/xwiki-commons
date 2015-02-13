@@ -109,7 +109,8 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
     {
         ClassLoader extensionLoader = this.jarExtensionClassLoader.getURLClassLoader(namespace, false);
         if (extensionLoader == null) {
-            extensionLoader = ((TestJarExtensionClassLoader) this.jarExtensionClassLoader).getSystemClassLoader();
+            extensionLoader =
+                ((TestJarExtensionClassLoaderManager) this.jarExtensionClassLoader).testExtensionClassLoader;
         }
 
         return extensionLoader;
