@@ -109,8 +109,7 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
     {
         ClassLoader extensionLoader = this.jarExtensionClassLoader.getURLClassLoader(namespace, false);
         if (extensionLoader == null) {
-            extensionLoader =
-                ((TestJarExtensionClassLoaderManager) this.jarExtensionClassLoader).testExtensionClassLoader;
+            extensionLoader = ((TestJarExtensionClassLoader) this.jarExtensionClassLoader).testExtensionClassLoader;
         }
 
         return extensionLoader;
@@ -173,10 +172,10 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
     private Type getLoadedType(Type role, ClassLoader extensionLoader) throws ClassNotFoundException
     {
         if (role instanceof Class) {
-            return Class.forName(((Class< ? >) role).getName(), true, extensionLoader);
+            return Class.forName(((Class<?>) role).getName(), true, extensionLoader);
         } else if (role instanceof ParameterizedType) {
-            Class< ? > rawType =
-                Class.forName(((Class< ? >) ((ParameterizedType) role).getRawType()).getName(), true, extensionLoader);
+            Class<?> rawType =
+                Class.forName(((Class<?>) ((ParameterizedType) role).getRawType()).getName(), true, extensionLoader);
             return new DefaultParameterizedType(((ParameterizedType) role).getOwnerType(), rawType,
                 ((ParameterizedType) role).getActualTypeArguments());
         }
@@ -194,7 +193,7 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
      * @return the effective role class in the extension class loader
      * @throws Exception on error
      */
-    private <T> Type checkJarExtensionAvailability(Type role, Class< ? extends T> implementation) throws Exception
+    private <T> Type checkJarExtensionAvailability(Type role, Class<? extends T> implementation) throws Exception
     {
         return checkJarExtensionAvailability(role, implementation, null);
     }
@@ -210,7 +209,7 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
      * @return the effective role class in the extension class loader
      * @throws Exception on error
      */
-    private <T> Type checkJarExtensionAvailability(Type role, Class< ? extends T> implementation, String namespace)
+    private <T> Type checkJarExtensionAvailability(Type role, Class<? extends T> implementation, String namespace)
         throws Exception
     {
         ClassLoader extensionLoader = getExtensionClassloader(namespace);
@@ -232,7 +231,7 @@ public class JarExtensionHandlerTest extends AbstractExtensionHandlerTest
         }
 
         // check components managers
-        Class< ? > componentInstanceClass = null;
+        Class<?> componentInstanceClass = null;
         if (namespace != null) {
             componentInstanceClass = getExtensionComponentManager(namespace).getInstance(loadedRole).getClass();
 

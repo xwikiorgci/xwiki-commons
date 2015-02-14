@@ -22,8 +22,6 @@ package org.xwiki.extension.jar;
 
 import java.net.URI;
 
-import javax.inject.Singleton;
-
 import org.xwiki.classloader.NamespaceURLClassLoader;
 import org.xwiki.classloader.internal.DefaultClassLoaderManager;
 import org.xwiki.component.annotation.Component;
