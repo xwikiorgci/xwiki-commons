@@ -20,18 +20,26 @@
 package org.xwiki.velocity.tools;
 
 import java.beans.Transient;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker.Std;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONException;
@@ -136,6 +144,10 @@ public class JSONTool
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibilityChecker(CustomVisibilityChecker.CUSTOM);
+            SimpleModule m = new SimpleModule("org.json.* serializer", new Version(1, 0, 0, "", "org.json", "json"));
+            m.addSerializer(JSONObject.class, new JSONObjectSerializer());
+            m.addSerializer(JSONArray.class, new JSONArraySerializer());
+            mapper.registerModule(m);
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             this.logger.error("Failed to serialize object to JSON", e);
@@ -163,6 +175,26 @@ public class JSONTool
             this.logger.info("Tried to parse invalid JSON: [{}], exception was: {}", StringUtils.abbreviate(json, 32),
                 ex.getMessage());
             return null;
+        }
+    }
+
+    class JSONObjectSerializer extends JsonSerializer<JSONObject>
+    {
+        @Override
+        public void serialize(JSONObject value, JsonGenerator jgen, SerializerProvider provider)
+            throws IOException, JsonProcessingException
+        {
+            jgen.writeRawValue(value.toString());
+        }
+    }
+
+    class JSONArraySerializer extends JsonSerializer<JSONArray>
+    {
+        @Override
+        public void serialize(JSONArray value, JsonGenerator jgen, SerializerProvider provider)
+            throws IOException, JsonProcessingException
+        {
+            jgen.writeRawValue(value.toString());
         }
     }
 }
