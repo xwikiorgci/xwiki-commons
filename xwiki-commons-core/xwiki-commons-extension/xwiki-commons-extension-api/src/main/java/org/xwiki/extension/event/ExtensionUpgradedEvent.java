@@ -60,7 +60,7 @@ public class ExtensionUpgradedEvent extends AbstractExtensionEvent
      * @param extensionId the extension identifier
      *
      * @since 9.0RC1
-     * @since 8.4.1
+     * @since 8.4.2
      * @since 7.4.6
      */
     public ExtensionUpgradedEvent(ExtensionId extensionId)
@@ -74,7 +74,7 @@ public class ExtensionUpgradedEvent extends AbstractExtensionEvent
      * @param extensionId the extension identifier
      *
      * @since 9.0RC1
-     * @since 8.4.1
+     * @since 8.4.2
      * @since 7.4.6
      */
     public ExtensionUpgradedEvent(String extensionId)
